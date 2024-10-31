@@ -1,16 +1,19 @@
-from langchain_ollama import OllamaLLM
-from langchain_core.output_parsers import StrOutputParser
-from langchain_core.prompts import ChatPromptTemplate
+import uvicorn
+from langserve.server import FastAPI, add_routes
 
-prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are a coder."),
-    ("user", "{input}")
-])
+from models.ollama_llama import llamaChain
 
-llm = OllamaLLM(model="llama3.1")
 
-output_parser = StrOutputParser()
+def app() -> FastAPI:
+    fastApi = FastAPI(
+        title="LangChain",
+        description="A language model chain",
+        version="0.1.0"
+    )
 
-chain = prompt | llm | output_parser
+    add_routes(fastApi, llamaChain(), path="/llama3/test")
+    return fastApi
 
-print(chain.invoke({"input": "what is java?"}))
+
+if __name__ == '__main__':
+    uvicorn.run(app(), host="0.0.0.0", port=18000)
