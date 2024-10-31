@@ -9,5 +9,4 @@ dependencies = [
     "langchain-ollama>=0.2.0",
     "langchain>=0.3.5",
     "langserve[all]>=0.3.0",
-    "speechrecognition>=3.11.0",
 ]
