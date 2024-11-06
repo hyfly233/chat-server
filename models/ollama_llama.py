@@ -2,6 +2,7 @@ from langchain_community.chat_message_histories import ChastMessageHistory
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama import OllamaLLM
+from langchain_core.runnables import RunnableWithMessageHistory
 
 
 def llamaChain():
@@ -31,8 +32,11 @@ def get_session_history(session_id: str):
         store[session_id] = ChastMessageHistory()
     return store.get(session_id, [])
 
-# do_message = RunnableWithMessageHistory(
-#     chain,
-#     get_session_history,
-#     input_message_key="text",
-# )
+
+def do_message(session_id: str, text: str):
+    chain = llamaChain()
+    history = get_session_history(session_id)
+    result = chain.invoke({"text": text, "history": history})
+    history.add_message("user", text)
+    history.add_message("assistant", result)
+    return result
