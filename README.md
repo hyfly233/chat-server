@@ -55,3 +55,68 @@ GET /history/{session_id}
     ]
 }
 ```
+
+## Speech-to-Text Functionality
+
+To use the speech-to-text functionality, send a POST request to the following endpoint:
+
+```
+POST /transcribe
+```
+
+### Request Body
+
+The request body should contain the audio file to be transcribed.
+
+### Response
+
+```json
+{
+    "text": "Transcribed text"
+}
+```
+
+## Text-to-Speech Functionality
+
+To use the text-to-speech functionality, send a POST request to the following endpoint:
+
+```
+POST /synthesize
+```
+
+### Request Body
+
+```json
+{
+    "text": "Text to be converted to speech"
+}
+```
+
+### Response
+
+```json
+{
+    "message": "Text has been converted to speech",
+    "file": "output.mp3"
+}
+```
+
+## Audio File to Data Stream Functionality
+
+To use the audio file to data stream functionality, send a POST request to the following endpoint:
+
+```
+POST /audio_stream
+```
+
+### Request Body
+
+The request body should contain the audio file to be converted to a data stream.
+
+### Response
+
+```json
+{
+    "audio_stream": "Base64 encoded audio stream"
+}
+```
